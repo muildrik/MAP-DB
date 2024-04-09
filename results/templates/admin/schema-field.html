@@ -1,0 +1,115 @@
+<div class="grid-x">
+    {% if '_id_' not in field_name and 'text_search' not in field_name %}
+
+    {{ aspects }}
+        <div class="cell small-3 medium-3 large-2">
+            <div class="card" id="{{ field.val|lower }}" style="width: 300px;">
+                <div class="grid-x card-divider">
+                    <div class="cell large-6">
+                        <input type=text name=Name class=field_value data-schema="{{schema_name}}" data-field="{{field_name}}" placeholder="{{field_name}}">
+                    </div>
+                    <div class="cell large-6">
+                        <label>({{aspects.type}})</label>
+                    </div>
+                </div>
+                {% if 'indexed' in aspects %} 
+                    <div class="card-section">
+                        <h6>
+                            {% if aspects.indexed %}
+                                {% if aspects.last_indexed|length %}
+                                    {% with aspects.last_indexed|last as last %}
+                                        Last indexed on {{ last }}
+                                    {% endwith %}
+                                {% endif %}
+                            {% else %}
+                                Unindexed
+                                {% if aspects.last_dropped|length %}
+                                    {% with aspects.last_dropped|last as last %}
+                                        (last dropped on {{ last }}) 
+                                    {% endwith %}
+                                {% endif %}
+                            {% endif %}
+                        </h6>
+                    </div>
+                {% endif %}
+                <div class="card-divider grid-x">
+                    <div class="cell large-6"></div>
+                    {% if 'display' in aspects %}
+                    <div class="cell large-6">
+                        <input id="display_{{ field_name }}" {% if aspects.display %} checked {% endif %} name="display" type=checkbox data-schema="{{schema_name}}" data-field="{{field_name}}" class=field_value>
+                        <label for="display_{{ field_name }}"><span data-tooltip tabindex="1"
+                            title="Is this a display field?">display ({{ aspects.display_type }})</label>
+                    </div>
+                    {% endif %}
+                    <div class="cell large-6"></div>
+                    {% if 'required' in aspects %}
+                    <div class="cell large-6">
+                        <input id="required_{{ field_name }}" {% if aspects.required %} checked {% endif %} name="required" type=checkbox data-schema="{{schema_name}}" data-field="{{field_name}}" class=field_value>
+                        <label for="required_{{ field_name }}"><span data-tooltip tabindex="1"
+                            title="Is this a required field?">required</label>
+                    </div>
+                    {% endif %}
+                    <div class="cell large-6"></div>
+                    {% if 'index' in aspects %}
+                    <div class="cell large-6">
+                        <input id="index_{{ field_name }}" {% if aspects.index %} checked {% endif %} name="index" type=checkbox data-schema="{{schema_name}}" data-field="{{field_name}}" class=field_value>
+                        <label for="index_{{ field_name }}"><span data-tooltip tabindex="1"
+                            title="Should this field be indexed for search?">index</label>
+                    </div>
+                    {% endif %}
+                    {% if 'translate_key' in aspects or 'translate_val' in aspects %}
+                    <div class="large-6 align-self-middle">
+                        <h6>Autotranslate</h6>
+                    </div>
+                    {% endif %}
+                    {% if 'translate_key' in aspects %}
+                    <div class="cell large-6 align-self-middle">
+                        <input id="translate_key_checkbox_{{ field_name }}" {% if aspects.translate_key %} checked {% endif %} name="translate_key" type=checkbox data-schema="{{schema_name}}" data-field="{{field_name}}" class=field_value>
+                        <label for="translate_key_checkbox_{{ field_name }}"><span data-tooltip tabindex="1"
+                            title="Include this field name in automatic translation?">field name</label>
+                    </div>
+                    {% endif %}
+                    <div class="cell large-6"></div>
+                    {% if 'translate_val' in aspects %}
+                    <div class="cell large-6">
+                        <input id="translate_val_checkbox_{{ field_name }}" {% if aspects.translate_val %} checked {% endif %} name="translate_val" type=checkbox data-schema="{{schema_name}}" data-field="{{field_name}}" class=field_value>
+                        <label for="translate_val_checkbox_{{ field_name }}"><span data-tooltip tabindex="1"
+                            title="Include this field's value in automatic translation?">field value</label>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if 'max_size' in aspects %}
+                <div class="cell large-6">
+                    <label for=field_max_size>Maximum file size (KB):</label>
+                    <input type=number name=max_size class=field_value data-schema="{{schema_name}}" data-field="{{field_name}}" id=field_max_size placeholder="{{ aspects.max_size }}">
+                </div>
+                {% endif %}
+                {% if 'file_types' in aspects %}
+                <div class="cell large-6">
+                    <label for=field_file_types>Permissible file types:</label>
+                    <input type=text name=file_types class=field_value data-schema="{{schema_name}}" data-field="{{field_name}}" id=field_file_types placeholder="{{ aspects.file_types }}">
+                </div>
+                {% endif %}
+                {% if 'max_length' in aspects %}
+                <div class="cell large-6">
+                    <label for=field_max_length>Maximum character length:</label>
+                    <input type=number name=max_length class=field_value data-schema="{{schema_name}}" data-field="{{field_name}}" id=field_max_length placeholder="{{ aspects.max_length }}">
+                </div>
+                {% endif %}
+                <div class="grid-x grid-margin-x align-justify">
+                    {% if 'index' in aspects %}
+                    <div class="cell large-4 align-justify">
+                        <span class="button primary field_btn" data-schema="{{schema_name}}" data-field="{{field_name}}" data-url="{% url 'schema_index_reindex' %}">{% if 'unindexed' in aspect %}Index{% else %}Reindex{% endif %}</span>
+                    </div>
+                    <div class="cell large-3 align-justify">
+                        <span class="button primary field_btn" data-schema="{{schema_name}}" data-field="{{field_name}}" data-url="{% url 'schema_index_drop' %}" {% if 'indexed' in aspects and not aspects.indexed %} disabled {% endif %}>Drop index</span>
+                    </div>
+                    {% endif %}
+                    <div class="cell large-5 align-justify">
+                        <span class="button primary field_btn" data-schema="{{schema_name}}" data-field="{{field_name}}" data-url="{% url 'schema_field_drop' %}">Drop field</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,17 @@
+<div>
+    <span class="button primary drop_schema" data-id="{{ schema.SchemaInfo.schema_name }}">Drop schema</span>
+</div>
+<div id="add_new_field">
+    {% include 'index-new-field.html' with schema_name=schema.SchemaInfo.schema_name%}
+</div>
+{% for name, aspects in schema.Schema.items %}
+    {% if fields.indexed %}
+        <div class="cell small-up-4 medium-up-5 large-up-6" id=indexed>
+            {% include 'schema-field.html' with schema_name=schema.SchemaInfo.schema_name field_name=name aspects=aspects %}
+        </div>
+    {% else %}
+        <div class="cell small-up-4 medium-up-5 large-up-6" id=unindexed>
+            {% include 'schema-field.html' with schema_name=schema.SchemaInfo.schema_name field_name=name aspects=aspects %}
+        </div>
+    {% endif %}
+{% endfor %}

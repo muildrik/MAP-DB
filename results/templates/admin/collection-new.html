@@ -1,0 +1,8 @@
+<form action="{% url 'new_schema' %}" method="POST">
+    {% csrf_token %}
+    <h3>Add a new schema</h3>
+    <label for=schema_name>New schema name</label>
+    <input type=text name=schema_name id=schema_name>
+    <hr>
+    <button type="submit" class="button">New schema</button>
+</form>

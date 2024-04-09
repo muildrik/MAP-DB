@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div class="grid-x align-center">
+  <div class="cell small-2">
+    <h2>Sign In</h2>
+  </div>
+</div>
+<div class="grid-x align-spaced">
+  <div class="cell small-2">
+    <form method="post">
+      {% csrf_token %}
+      <label for=username>Username</label>
+      <input id=username name=username type=text>
+      <label for=password>Password</label>
+      <input id=password name=password type=password>
+      <button class="button primary" type="submit">Sign In</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

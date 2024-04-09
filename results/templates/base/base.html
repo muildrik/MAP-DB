@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'results/scss/app.css' %}">
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css"> -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css" crossorigin="anonymous"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}"/> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}"/> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}"/> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/fa_all.min.css.css' %}"> -->
+        <!-- Compressed CSS -->
+
+<!-- Compressed JavaScript -->
+</head>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <!-- <script src="{% static 'js/foundation.min.js' %}"></script> -->
+    <!-- <script src="{% static 'js/fa_all.min.js' %}"></script> -->
+    <script src="{% static 'js/slick.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+
+            $(document).foundation()
+
+            /**
+             * SETTING UP AJAX
+             */
+            csrftoken = '{{ csrf_token }}'
+
+            csrfSafeMethod = method => /^(GET|HEAD|OPTIONS|TRACE)$/.test(method)
+            $.ajaxSetup({
+                beforeSend: (xhr, settings) => {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            })
+
+            post = async (url, data, target=NaN) => {               
+                data['csrfmiddlewaretoken'] = document.querySelector('[name=csrfmiddlewaretoken]').value
+                $.ajax({
+                    method : "POST",
+                    url : url,
+                    data: data,
+                    success : response => {
+                        if (target != false) {
+                            if (target == NaN) {
+                                target ='schemas'
+                            }
+                            $(`#${target}`).html(response)
+                        } else {
+                            return response
+                        }
+                    }
+                })
+            }
+
+            post_form = async (url, form, target="data_overview") => {
+                data = new FormData($(`#${form}`)[0])
+                data.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+                console.log(data)
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success : response => {
+                        $(`#${target}`).html(response)
+                    }
+            })
+            }
+
+            get = async (url, data={}, target='content') => {
+                
+                data['csrfmiddlewaretoken'] = document.querySelector('[name=csrfmiddlewaretoken]').value
+                $.ajax({
+                    method : "GET",
+                    url : url,
+                    data: data,
+                    success : response => {
+                        $(`#${target}`).html(response)
+                    }
+                })
+            }
+
+            // AUTOCOMPLETE CAN BE IMPLEMENTED WITH MONGODB ATLAS
+            // $("#search_term").autocomplete({
+            //     'minLength' : 1,
+            //     source: async function(request, response) {
+            //         let data = await post("{% url 'autocomplete' %}", { 'autocomplete' : request.term }, false)
+            //         .then(results => results.json())
+            //         .then(results => results.map(result => {
+            //             console.log(result)
+            //             // return { label: result.name, value: result.name, id: result._id }
+            //         }))
+            //         response(data)
+            //     }
+            // })
+        })
+    </script>
+
+    <body>
+        <div class="grid-x">
+            <div class="cell grid-x large-12 title-bar">
+                <div class="cell small-6 large-4">
+                    <a href="{% url 'about' %}">
+                        <div class="cell small-6 large-6">
+                            <img src="{% static 'images/Header2.jpg' %}" width="100"
+                                alt="Meroë Archaeological Project (MAP): Making the Past Accessible">
+                            The Meroë Archaeological Project (MAP): Making the Past Accessible
+                        </div>
+                    </a>
+                </div>
+                <div class="cell grid-x small-6 large-8 align-self-middle">
+                    {% include 'results/navbar.html' %}
+                </div>
+            </div>
+
+            <div class="cell large-12" id=content>
+                {% block content %}
+                {% endblock %}
+            </div>
+
+            <div class="cell large-12" data-sticky-container>
+                <div class="sticky" data-sticky data-stick-to="bottom">
+                    <div class="grid-x">
+                        <div class="cell small-5"></div>
+                        <div class="cell small-3 align-self-middle">
+                            <h6>
+                                <small>Martin Uildriks © 2022</small>
+                            </h6>
+                        </div>
+                        <div class="cell auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block extra_js %}
+        {% endblock %}
+    </body>
+
+</html>

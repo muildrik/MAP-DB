@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+About MAP
+{% endblock %}
+{% block content %}
+<div class="grid-x grid-padding-x">
+    <div class="cell">
+        <h1><small>{% trans WelcomeMessage %}</small></h1>
+</div>
+<div class="cell">
+    <p>
+        {% trans 'MAPFocus' %}
+        {% if not user.is_authenticated %}<a href="{% url 'signin' %}">Sign in</a> to search the archives. {% endif %}
+    </p>
+</div>
+</div>
+{% endblock %}

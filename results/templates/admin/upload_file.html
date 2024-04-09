@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Upload new data{% endblock %}
+{% block content %}
+<body>
+    <form action="{% url 'upload_data' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Upload a new file with data</h3>
+        <label for=collectionName>Collection name</label>
+        <select id=collectionName name="collection_name">
+            {% for collection in collections %}
+                <option value="{{collection}}">{{collection}}</option>
+            {% endfor %}
+            <option value="new_collection">New collection...</option>
+        </select>
+        <input type=text name="new_collection_name" id=new_collection_name placeholder="Name of new collection">
+        <input type=file name=data accept=".json, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <button type=submit class=button>Upload</button>
+    </form>
+</body>
+<script>
+    $(document).ready(() => {
+
+        $('#new_collection_name').hide()
+
+        $('#collectionName').change(e => {
+            selected_option = $('#collectionName option:selected').text()
+            if (selected_option == 'New collection...') {
+                $('#new_collection_name').show()
+            } else {
+                $('#new_collection_name').hide()
+            }
+        })
+    })
+</script>
+{% endblock %}

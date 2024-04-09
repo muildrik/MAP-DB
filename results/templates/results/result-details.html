@@ -1,0 +1,28 @@
+<div class="reveal" id="modal-{{ record.id }}" data-reveal>
+    <div id="{{ record.id }}" class="row">
+        <div class="slider-for">
+            <div></div>
+        </div>
+        <div>
+            {% include 'results/result-detail-carousel.html' with imagepaths=record.filepaths %}
+        </div>
+        <section>
+            {% for item in record.items %}
+                {% if "Small Find Number" in item.1.text %}
+                    <div class="columns">
+                        <h1>{{ item.1.text }} {{ item.1.val }}</h1>
+                    </div>
+                {% endif %}
+                {% if item.1.text|length > 0 %}
+                    <div class="columns large-4 medium-6 small-12">
+                        {% if item.1.index %}
+                            <hidden id="index-{{ item.1.index }}"></hidden>
+                        {% endif %}
+                        <label name="key-{{ item.0 }}">{{ item.1.text }}</label>
+                        <textarea name="val-{{ item.0 }}">{{ item.1.val }}</textarea>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </section>
+    </div>
+</div>

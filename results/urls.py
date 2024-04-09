@@ -1,0 +1,42 @@
+from django.urls import path
+from results import views
+from .views import SignUpView
+
+urlpatterns = [
+    path("", views.about, name="about"),
+    # path('i18n/', include('django.conf.urls.i18n')),
+    path("about/", views.about, name="about"),
+    path("contact/", views.contact, name="contact"),
+    path("log/", views.log_message, name="log"),
+    path("load/", views.load, name="load_data"),
+    path("search/", views.search, name="search_data"),
+    path("search/simple/", views.simple_search, name="simple_search"),
+    path("update/", views.update, name="update"),
+    # path("media", views.update, name="media"),
+    # path("configure/", views.configure, name="configure"),
+    # path("keys/", views.get_keys, name="get_keys"),
+    path("data/add/fields", views.get_fields, name="get_fields"),
+    path("data/add/field", views.add_field_to_record, name="add_field_to_record"),
+    path("configuration/", views.configuration, name="configuration"),
+    path("schema/new/", views.schema_new, name="new_schema"),
+    path("schema/drop/", views.schema_drop, name="drop_schema"),
+    path("schema/field/add", views.schema_add_field, name="add_new_field"),
+    path("schema/field/drop", views.schema_drop_field, name="schema_field_drop"),
+    path("schema/field/update", views.schema_update_field, name="update_field"),
+    path("schema/field/update/property", views.schema_update_field_property, name="update_field_property"),
+    path("upload/data/", views.upload_data, name="upload_data"),
+    path("upload_file/", views.upload_file, name="upload-file"),
+    path("data_add/", views.add_data, name="data_add"),
+    path("record_add/", views.add_record, name="record_add"),
+    # path("record/<str:schema>/<str:name>/<str:time>/<str:id>/", views.get_thumbnail, name="record_get_thumbnail"),
+    path("update_schema/", views.update_schema, name="update_schema"),
+    path("schema/index/reindex/", views.schema_index_reindex, name="schema_index_reindex"),
+    path("schema/index/drop/", views.schema_index_drop, name="schema_index_drop"),
+    path("search/", views.search, name='autocomplete'),
+    # path("collection/drop/", views.collection_drop, name="collection_drop"),
+    path("collection/schema/clear/history/", views.clear_schema_history, name="clear_schema_history"),
+    path("search/collections/fetch/", views.search_collections_fetch, name="search_collections_fetch"),
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('signin/', views.user_signin, name='signin'),
+    path('signout/', views.user_signout, name='signout')
+]

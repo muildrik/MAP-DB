@@ -1,0 +1,20 @@
+{% for record in records %}
+<div id="{{ record.id }}" class="medium-3 columns end">
+    {% for item in record.items %}
+        {% if "Small Find Number" in item.1.text %}
+            <h1>{{ item.1.text }} {{ item.1.val }}</h1>
+        {% endif %}
+        {% if item.1.text|length > 0 %}
+            {% if item.1.index %}
+                <hidden id="index-{{ item.1.index }}"></hidden>
+            {% endif %}
+            <textarea name="key-{{ item.0 }}">{{ item.1.text }}</textarea>
+            <textarea name="val-{{ item.0 }}">{{ item.1.val }}</textarea>
+            <br>
+        {% endif %}
+    {% endfor %}
+    <label for='filename'>Image
+    <input name=filename id='filename' type=file accept=".png, .jpg"></label>
+    {% include 'results/carousel.html' with imagepaths=record.filepaths %}
+</div>
+{% endfor %}

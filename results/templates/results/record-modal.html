@@ -1,0 +1,43 @@
+{% for key, value in record.document.items %}
+    <div>
+        <label for="{{key}}">{{ key }}</label>
+        {% if '_id' not in key and 'csrfmiddlewaretoken' not in key %}
+            {% if user %}
+                <input id={{key}} type=text placeholder="{{value}}">
+            {% else %}
+                <span id="{{key}}">{{value}}</span>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endfor %}
+
+{% if record.metadata.absent|length %}
+    <h5>Add fields</h5>
+
+    <form id="add_field_to_record_form">
+        {% for field_name, field in schema.items %}
+            {% if field_name in record.metadata.absent %}
+                <div class="input-group">
+                    <label for=add_data_{{field_name}}><span data-tooltip tabindex="1" title="
+                        {% if 'required' in field %}This is a required field{% endif %}
+                        {% if 'type' in field %}of {{field.type}}-type{%endif%}
+                        {% if 'index' in field %}and indexed to speed up search queries.{% endif %}
+                        {% if 'translate_key' in field %}The name{% endif %}
+                        {% if 'translate_val' in field %}and value{% endif %} of this field automatically translate.
+                    ">
+                    <span id=add_data_{{field_name}} class="input-group-label">{{ field_name }}</span></label>
+                    {% if 'string' in field.type %}
+                        <input class="input-group-field" {% if field.max_length > 0 %} maxlength='{{ field.max_length|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=text name="{{field_name}}">
+                    {% elif 'integer' in field.type %}'
+                    {{field.max_length}}
+                        <input class="input-group-field" {% if field.max_length > 0 %} maxlength='{{ field.max_length|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=number name="{{field_name}}">
+                    {% elif 'file' in field.type %}
+                        <input class="input-group-field" {% if field.max_size > 0 %} data-max='{{ field.max_size|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=file accept='{{ field.file_types }}' name="{{field_name}}">
+                    {% endif %}
+                    <a class="button primary add_field_to_record" type="submit" data-record="{{record}}" data-field="{{field_name}}">Add</a>
+                </div>
+                <a href="#" rel="modal:close">Close</a>
+            {% endif %}
+        {% endfor %}
+    </form>
+{% endif %}

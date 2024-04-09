@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load result_tags %}
+{% block title %}{% endblock %}
+{% block content %}
+{{ schemas|json_script:"schemas" }}
+<script>
+    $(document).ready(() => {
+
+        $(document).foundation()
+
+        schemas = JSON.parse($('#schemas').text())
+
+        $('body').on('click', '.add_new_record', e => {
+            e.preventDefault()
+            post_form("{% url 'data_add' %}", "new_record_form", "data_overview")
+            
+        })
+
+        $('body').on('click', '.add_field_to_record', e => {
+            e.preventDefault()
+            post_form("{% url 'add_field_to_record' %}", "add_field_to_record_form", "data_overview")
+        })
+    })
+</script>
+<div class="row">
+    <h1>{% trans 'AddNewRecord' %}</h1>
+    <p>{% trans 'FollowingForm' %}</p>
+    <p>{% trans 'DeletingField' %}</p>
+    <div class="large-9 columns">
+        <ul class="tabs" data-tabs id="example-tabs">
+            {% for name, schema in schemas.items %}
+                <li class="tabs-title {% if forloop.first %}is-active{% endif %}">
+                    <a href="#schema_{{ name }}" aria-selected="true">{{ name|capfirst }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tabs-content" data-tabs-content="example-tabs">
+            <div class="row">
+                <div class="grid-x">
+                    {% for schema_name, schema in schemas.items %}
+                        <div class="tabs-panel columns large-9 {% if forloop.first %}is-active{% endif %}" id="schema_{{ schema_name }}">
+                            {% include 'data_add_fields.html' with schema_name=schema_name schema=schema.Schema %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id=data_overview>
+            {% for schema_name, schema in schemas.items %}
+                {% if schema_name in records %}
+                    {% with records=records|get_records:schema_name schema=schemas|get_schema:schema_name %}
+                        {% include 'data_overview.html' with records=records schema=schema %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+         </div>
+    </div>
+</div>
+{% endblock %}

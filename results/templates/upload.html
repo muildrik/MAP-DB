@@ -1,0 +1,11 @@
+<div>
+
+    <form method="post" action="/upload_file/" enctype="multipart/form-data">
+        {% csrf_token %}}
+        <label for='filename'>Image
+        <input name=filename id='filename' type=file accept=".png, .jpg"></label>
+        <label for='title'>File name
+        <input name=title id='title' type=text></label>
+        <button type=submit>Upload</button>
+    </form>
+</div>

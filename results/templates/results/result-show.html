@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% endblock %}
+{% block content %}
+<script>
+    $(document).ready(() => {
+        $(document).foundation()
+
+        updateSelection = () => {
+            data = $.makeArray($('#available_collections input:checked').map((i, e) => $(e).prop('name')))
+            $.post({
+                    url: '/search/collections/fetch/',
+                    data: {
+                        'collections': JSON.stringify(data)
+                    }
+                })
+                .done(response => {
+                    if (response.success) {
+                        $('#search_stats').empty().html(response.stats)
+                        // $('.slider-nav').slick('unslick')
+                        $('#results').empty().html(response.results)
+                        // $('.slider-nav').slick(getSliderSettings())
+                    }
+                })
+        }
+
+        $('#filename').on('change', e => {
+            l = $(e.currentTarget)
+            console.log(l)
+            data = new FormData()
+            data.append('filename', $('#filename')[0].files[0])
+            data.append('mongoid', $(e.currentTarget).parent().closest('div').attr('id'))
+            $.post({
+                    url: '/upload_file/',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                })
+                .done(response => {
+                    if (response.success) {
+                        // UPDATE THE AFFECTED RECORD ONLY?
+                        console.log(response.message)
+                    }
+                })
+        })
+
+        $('#exactmatch').on('click', () => update())
+        $('#search').on('keyup', () => update())
+
+        $('textarea').on('keyup', e => {
+            l = $(e.currentTarget)
+            console.log(l)
+            $.post({
+                    url: '/update/',
+                    data: {
+                        'id': $(e.currentTarget).parent().attr('id'),
+                        'field': $(e.currentTarget).attr('name'),
+                        'value': $(e.currentTarget).val()
+                    }
+                })
+                .done(response => {
+                    if (response.success) {
+                        console.log(response.message)
+                    }
+                })
+        })
+
+        update = e => {
+            console.log($('#exactmatch').prop('checked'),$('#search').val())
+            $.post({
+                    url: '/search/',
+                    data: {
+                        'collections': JSON.stringify($('#collections').data('id').trim(' ').split(',')),
+                        'page': e ? $(e.currentTarget).data('id') : 1,
+                        'term': $('#search').val(),
+                        'exact': $('#exactmatch').prop('checked')
+                    }
+                })
+                .done(response => {
+                    if (response.success) {
+                        $('#search_stats').empty().html(response.stats)
+                        $('#pages').empty().html(response.pages)
+                        // $('.slider-nav').slick('unslick')
+                        $('#results').empty().html(response.results)
+                        // $('.slider-nav').slick(getSliderSettings())
+
+                    }
+                })
+        }
+
+        getSliderSettings = () => {
+            return {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.slider-for',
+                dots: true,
+                centerMode: true,
+                focusOnSelect: true
+            }
+        }
+
+        // $('.slider-for').slick({
+        //         slidesToShow: 1,
+        //         slidesToScroll: 1,
+        //         arrows: false,
+        //         fade: true,
+        //         asNavFor: '.slider-nav'
+        // })
+
+        $('#select_collection').on('change', () => {
+            $.post({
+                    url: '/collection/select/',
+                    data: $('#select_collection').val()
+                })
+                .done(response => {
+                    if (response.success) {
+                        console.log(response.messages)
+                        $('#collection_search_div').empty().html(response.html)
+                    }
+                })
+        })
+
+        // $('.slider-nav').slick(getSliderSettings()) 
+    })
+</script>
+<div class="row">
+    <nav aria-label="You are here:" role="navigation">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li>
+                <span class="show-for-sr">Current: </span>Search
+            </li>
+        </ul>
+    </nav>
+    <div class="align-center">
+        <h1>{% trans 'SearchHeading' %}</h1>
+    </div>
+    <div class="grid-x grid-margin-x align-left">
+        <div class="cell small-3">
+            <div class="cell">
+                {% if records|length %}
+                <fieldset class="fieldset" id="available_collections">
+                    <legend>Collections</legend>
+                    {% for collection, stat in stats.items %}
+                        <div>
+                            <input id="collection-{{ collection }}-chkbox" name="{{ collection }}" type=checkbox checked onclick="updateSelection()">
+                            <label for="{{ collection }}">{{ collection }} ({{ stat.population }} records; {{ stat.total }} hits)</label>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                {% endif %}
+            </div>
+            <div class="cell"></div>
+            {% if population > 0 %}
+            <div id=search_div class="">
+                <div class="grid-x grid-margin-x align-center">
+                    <div class="cell">
+                        <label for=search>{% trans 'SearchKeywords' %} <span data-tooltip tabindex="1"
+                                title="Simply type a fieldname followed by keyword(s)">{% trans 'SearchIndexed' %}:</span></label>
+                    </div>
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell large-6">
+                            <input type=text id=search>
+                        </div>
+                        <div class="cell large-6 small-6">
+                            <input type=checkbox name=exactmatch id=exactmatch>
+                            <label for=exactmatch>Match exact keywords</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small-6"></div>
+            <div class="cell small-6 grid-x grid-padding-x" id=results>
+                {% for schema, records in records.items %}
+                {{ schema }}
+                    {% for record in records %}
+                        {% include 'result-carousel.html' with record=record %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div id=search_stats>
+                {% include 'result-stats.html' %}
+            </div>
+            <div id=pages>
+                {% include 'result-pages.html' %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        Your currently selected collection{{collection|pluralize}}
+        do{% if collection|length == 1 %}es{%else%}{{collection|pluralize:"does"}} {%endif%}not contain any documents.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,392 @@
+{
+    "SchemaInfo": {
+        "schema_name": "data",
+        "system_fields": [
+            "_id_",
+            "thumbnail",
+            "text_search",
+            "added",
+            "last_modified"
+        ],
+        "indexed_fields": [
+            "photo/drawing/impression"
+        ],
+        "unindexed_fields": [],
+        "index_log": {
+            "indexed": {
+                "description": [
+                    "2021-12-09T12:20:09.840315",
+                    "2021-12-09T12:32:21.245877",
+                    "2021-12-09T12:32:21.254877",
+                    "2021-12-09T12:40:47.034212",
+                    "2021-12-09T12:40:47.034212"
+                ],
+                "excavation_date": [
+                    "2021-12-09T12:20:14.851276",
+                    "2021-12-09T12:32:24.415933",
+                    "2021-12-09T12:32:24.415933",
+                    "2021-12-09T12:43:12.935678",
+                    "2021-12-09T12:43:12.935678",
+                    "2021-12-09T12:43:15.385197",
+                    "2021-12-09T12:43:15.431193",
+                    "2021-12-09T12:43:17.577986",
+                    "2021-12-09T12:43:17.577986",
+                    "2021-12-09T12:43:19.383080",
+                    "2021-12-09T12:43:19.387077",
+                    "2021-12-09T12:44:12.189007",
+                    "2021-12-09T12:48:30.677349",
+                    "2021-12-09T12:48:32.401699",
+                    "2021-12-09T12:50:06.904817",
+                    "2021-12-09T12:53:07.575072"
+                ],
+                "label_on_box_or_tag": [
+                    "2021-12-09T12:22:46.359918",
+                    "2021-12-09T12:31:02.166062",
+                    "2021-12-09T12:31:10.482999",
+                    "2021-12-09T12:31:18.731016",
+                    "2021-12-09T12:32:25.174722",
+                    "2021-12-09T12:32:25.174722",
+                    "2021-12-09T12:43:23.154171",
+                    "2021-12-09T12:43:23.162173",
+                    "2021-12-09T12:43:23.174172",
+                    "2021-12-09T12:43:23.175177",
+                    "2021-12-09T12:48:35.570668",
+                    "2021-12-09T12:50:08.368859",
+                    "2021-12-09T12:53:07.706345"
+                ],
+                "bibliography/shinnie_pg_#": [
+                    "2021-12-09T12:31:27.938103",
+                    "2021-12-09T12:32:22.279660",
+                    "2021-12-09T12:32:22.279660",
+                    "2021-12-09T12:43:25.226179",
+                    "2021-12-09T12:43:25.226179",
+                    "2021-12-09T12:48:36.320614",
+                    "2021-12-09T12:53:07.833510"
+                ],
+                "dimensions/weight": [
+                    "2021-12-09T12:31:21.601629",
+                    "2021-12-09T12:32:23.305158",
+                    "2021-12-09T12:32:23.306166",
+                    "2021-12-09T12:32:23.321192",
+                    "2021-12-09T12:43:27.846725",
+                    "2021-12-09T12:43:27.855725",
+                    "2021-12-09T12:43:27.856728",
+                    "2021-12-09T12:48:33.273721",
+                    "2021-12-09T12:48:33.930692",
+                    "2021-12-09T12:48:40.920928",
+                    "2021-12-09T12:50:10.009092",
+                    "2021-12-09T12:50:10.991081",
+                    "2021-12-09T15:46:11.265909"
+                ],
+                "object_category": [
+                    "2021-12-09T12:22:59.065836",
+                    "2021-12-09T12:31:19.939239",
+                    "2021-12-09T12:32:25.742653",
+                    "2021-12-09T12:32:25.742653",
+                    "2021-12-09T12:48:34.686666",
+                    "2021-12-09T12:50:12.680197",
+                    "2021-12-09T15:46:11.437821"
+                ],
+                "recorded_by": [
+                    "2021-12-09T12:32:28.267946",
+                    "2021-12-09T12:32:28.268946",
+                    "2021-12-09T12:50:13.495534",
+                    "2021-12-09T15:46:11.597466"
+                ],
+                "photo/drawing/impression": [
+                    "2021-12-09T12:32:27.519487",
+                    "2021-12-09T12:32:27.519487",
+                    "2021-12-09T12:32:27.532488",
+                    "2021-12-09T15:46:43.911290",
+                    "2022-08-19T19:12:02.904964"
+                ],
+                "colour/material": [
+                    "2021-12-09T12:32:26.791633",
+                    "2021-12-09T12:32:26.791633",
+                    "2021-12-09T15:46:48.309280"
+                ],
+                "condition": [
+                    "2021-12-09T12:32:39.073173",
+                    "2021-12-09T12:32:39.073173"
+                ],
+                "dating": [
+                    "2021-12-09T12:32:39.740725",
+                    "2021-12-09T12:32:39.741719"
+                ],
+                "national_museum_number": [
+                    "2021-12-09T12:32:40.382795",
+                    "2021-12-09T12:32:40.382795",
+                    "2021-12-09T15:46:49.644171"
+                ],
+                "small_find_number": [
+                    "2021-12-09T12:32:41.558128",
+                    "2021-12-09T12:32:41.558128"
+                ],
+                "excavation_locus": [
+                    "2021-12-09T12:32:42.237646"
+                ],
+                "acquired_by": [
+                    "2021-12-09T12:32:43.184353",
+                    "2021-12-09T12:32:43.184353"
+                ],
+                "label_on_object": [
+                    "2021-12-09T12:32:45.661959",
+                    "2021-12-09T12:32:45.662958"
+                ],
+                "place_of_origin": [
+                    "2021-12-09T12:32:44.952261",
+                    "2021-12-09T12:32:44.952261"
+                ],
+                "present_location": [
+                    "2021-12-09T12:32:44.332840",
+                    "2021-12-09T12:32:44.335839"
+                ],
+                "text_search": [
+                    "2021-12-09T12:32:23.307161",
+                    "2021-12-09T12:32:23.308163",
+                    "2021-12-09T12:32:23.323167",
+                    "2021-12-09T12:32:24.421931",
+                    "2021-12-09T12:32:39.741719",
+                    "2021-12-09T12:32:39.742759",
+                    "2021-12-09T12:32:40.383791",
+                    "2021-12-09T12:32:40.383791",
+                    "2021-12-09T12:32:42.239652",
+                    "2021-12-09T12:32:44.334872",
+                    "2021-12-09T12:32:44.341841",
+                    "2021-12-09T12:32:44.953260",
+                    "2021-12-09T12:32:44.953260",
+                    "2021-12-09T12:32:45.662958",
+                    "2021-12-09T12:32:45.663982",
+                    "2021-12-09T12:40:46.856911",
+                    "2021-12-09T12:40:46.857945",
+                    "2021-12-09T12:43:12.936677",
+                    "2021-12-09T12:43:12.936677",
+                    "2021-12-09T12:43:19.386078",
+                    "2021-12-09T12:43:19.395113",
+                    "2021-12-09T12:43:27.858727"
+                ]
+            },
+            "dropped": {
+                "description": [],
+                "excavation_date": [
+                    "2021-12-09T12:50:24.425556"
+                ],
+                "label_on_box_or_tag": [
+                    "2021-12-09T12:50:57.373790"
+                ],
+                "bibliography/shinnie_pg_#": [
+                    "2021-12-09T12:52:29.934729"
+                ],
+                "dimensions/weight": [
+                    "2021-12-09T12:53:20.152683"
+                ],
+                "object_category": [
+                    "2021-12-09T15:44:55.011302"
+                ],
+                "recorded_by": [
+                    "2021-12-09T15:46:07.163578"
+                ],
+                "photo/drawing/impression": [],
+                "colour/material": [],
+                "condition": [],
+                "dating": [],
+                "national_museum_number": [],
+                "small_find_number": [],
+                "excavation_locus": [],
+                "acquired_by": [],
+                "label_on_object": [],
+                "place_of_origin": [],
+                "present_location": [],
+                "text_search": []
+            }
+        }
+    },
+    "Schema": {
+        "small_find_number": {
+            "type": "string",
+            "required": false,
+            "minlength": 1,
+            "translate_key": true,
+            "translate_val": false
+        },
+        "national_museum_number": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "excavation_locus": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "present_location": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "place_of_origin": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "description": {
+            "type": "string",
+            "required": true,
+            "minlength": 1,
+            "translate_key": true,
+            "translate_val": true
+        },
+        "dating": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "condition": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "acquired_by": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "excavation_date": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "label_on_object": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "label_on_box_or_tag": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "bibliography/shinnie_pg_#": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "dimensions/weight": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "colour/material": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "object_category": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "recorded_by": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "photo/drawing/impression": {
+            "type": "string",
+            "required": false,
+            "minlength": 1
+        },
+        "thumbnail": {
+            "type": "string",
+            "required": true,
+            "minlength": 1
+        },
+        "text_search": {
+            "type": "string",
+            "required": true,
+            "minlength": 1
+        },
+        "added": {
+            "type": "timestamp",
+            "required": true
+        },
+        "last_modified": {
+            "type": "timestamp",
+            "required": true
+        }
+    },
+    "FieldNames": {
+        "small_find_number": {
+            "key": "small_find_number",
+            "val": "Small Find Number"
+        },
+        "national_museum_number": {
+            "key": "national_museum_number",
+            "val": "National Museum Number"
+        },
+        "excavation_locus": {
+            "key": "excavation_locus",
+            "val": "Excavation Locus"
+        },
+        "present_location": {
+            "key": "present_location",
+            "val": "Present Location"
+        },
+        "place_of_origin": {
+            "key": "place_of_origin",
+            "val": "Place of Origin"
+        },
+        "description": {
+            "key": "description",
+            "val": "Description"
+        },
+        "dating": {
+            "key": "dating",
+            "val": "Dating"
+        },
+        "condition": {
+            "key": "condition",
+            "val": "Condition"
+        },
+        "acquired_by": {
+            "key": "acquired_by",
+            "val": "Acquired by"
+        },
+        "excavation_date": {
+            "key": "excavation_date",
+            "val": "Excavation Date"
+        },
+        "label_on_object": {
+            "key": "label_on_object",
+            "val": "Label on Object"
+        },
+        "label_on_box_or_tag": {
+            "key": "label_on_box_or_tag",
+            "val": "Label on Box or Tag"
+        },
+        "bibliography/shinnie_pg_#": {
+            "key": "bibliography/shinnie_pg_#",
+            "val": "Bibliography/Shinnie Pg #"
+        },
+        "dimensions/weight": {
+            "key": "dimensions/weight",
+            "val": "Dimensions/Weight"
+        },
+        "colour/material": {
+            "key": "colour/material",
+            "val": "Colour/Material"
+        },
+        "recorded_by": {
+            "key": "recorded_by",
+            "val": "Recorded by"
+        },
+        "object_category": {
+            "key": "object_category",
+            "val": "Object Category"
+        },
+        "photo/drawing/impression": {
+            "key": "photo/drawing/impression",
+            "val": "Photo/Drawing/Impression"
+        }
+    }
+}

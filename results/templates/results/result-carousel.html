@@ -1,0 +1,35 @@
+<script>
+    $(document).ready(() => {
+        $(document).foundation()
+    })
+</script>
+<div class="slider-nav">
+    <div class="grid-x grid-padding-x small-up-4" data-equalizer data-equalize-by-row="true">
+        <div class="cell" data-equalizer-watch>
+            <a href="#{{record.metadata.id}}" rel="modal:open" class=record_card data-open="{{record.metadata.id}}" data-collection="{{record.metadata.collection}}" data-id="{{record.metadata.id}}">
+                <div class="card" style="width: 230px;">
+                    {% if 'title' in record %}
+                        <div class="card-divider">
+                            {{ record.title }}
+                        </div>
+                    {% endif %}
+                    {% if 'thumbnail' in record  %}
+                        <a class="thumbnail">
+                            <div class="card-image">
+                                <img src="{{record.thumbnail.base64}}">
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if 'display_type' in record and record.display_type == 'description' %}
+                        <div class="card-section">
+                            {{ record.display_type }}
+                        </div>
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div id="{{record.metadata.id}}" class="modal">
+    {% include 'record-modal.html' with schema=schema %}
+</div>

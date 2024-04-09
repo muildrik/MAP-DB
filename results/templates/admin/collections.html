@@ -1,0 +1,92 @@
+<script>
+    $(document).ready(() => {
+
+        $(document).foundation()
+
+        drop = action => {
+            $.post({
+                url : '/collection/drop/',
+                data : {
+                    'collection' : $('#hidden_collection_name').prop('name')
+                }
+            })
+            .done(response => {
+                if (response.success) {
+                    $('#collections').empty().html(response.unindexedHTML)
+                    $('#indexed').empty().html(response.indexedHTML)
+                    console.log(response.messages)
+                }
+            })
+        }
+
+        clear = action => {
+            $.post({
+                url : 'collection/schema/clear/history/',
+                data : {
+                    'collection' : $('#collection').prop('name')
+                }
+            })
+            .done(response => {
+                if (response.success) {
+                    $('#collections').empty().html(response.unindexedHTML)
+                    $('#indexed').empty().html(response.indexedHTML)
+                    console.log(response.messages)
+                }
+            })
+        }
+    })
+</script>
+<div class="row">
+    <div class="large-9 columns">
+        <ul class="tabs" data-tabs id="example-tabs">
+            {% for schema in schemas %}
+                <input type="hidden" id="hidden_schema_name" name="{{ schema.SchemaInfo.schema_name }}">
+                <li class="tabs-title {% if forloop.first %}is-active{% endif %}">
+                    <a href="#collection_{{ schema.SchemaInfo.schema_name }}" aria-selected="true">{{ schema.SchemaInfo.schema_name|capfirst }}</a>
+                </li>
+            {% endfor %}
+            <li class="tabs-title">
+                <a href="#collection_new" aria-selected="true">New collection</a>
+            </li>
+        </ul>
+        {% for schema in schemas %}
+            <div class="tabs-content" data-tabs-content="example-tabs">
+                <div class="row">        
+                <div class="tabs-panel columns large-9 {% if forloop.first %}is-active{% endif %}" id="collection_{{ schema.SchemaInfo.schema_name }}">
+                    <div class="cell">
+                        <div>
+                            <label for="configuration_filter">Filter fields</label>
+                            <input id="configuration_filter" type="text" placeholder="Name">
+                        </div>
+                        <input type="checkbox" id="configuration_filter_checkbox_indexed"><label for="configuration_filter_checkbox_indexed">Indexed</label>
+                        <input type="checkbox" id="configuration_filter_checkbox_unindexed"><label for="configuration_filter_checkbox_unindexed">Unindexed</label>
+                    </div>
+                    <div class="grid-x">
+                    {% for field in schema.Schema.items %}
+                        {% if field.index %}
+                            <div class="cell small-up-4 medium-up-5 large-up-6" id=indexed>
+                                {% include 'index_fields.html' with schema=schema.Schema field=field %}
+                            </div>
+                        {% else %}
+                            <div class="cell small-up-4 medium-up-5 large-up-6" id=unindexed>
+                                {% include 'index_fields.html' with collection=collection field=field %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                        <div id="add_new_field">
+                            {% include 'index-new-field.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="tabs-content" data-tabs-content="example-tabs">
+    <div class="tabs-panel" id="collection_new">
+        <p>New collections can be useful to store different types of data. Note, however, that the database does not enforce this and one should think carefully about what definition of 'data' is sensible to the project. Each collection has a defined number of fields that can be indexed to enable search functionalities. You can define fields here and when done, add the new collection to the database. This new collection will then be available in the sections where you can add new data and search through the data.</p>
+        <hr>
+        {% include 'collection-new.html' %}
+    </div>
+</div>

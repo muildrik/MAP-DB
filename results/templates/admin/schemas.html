@@ -1,0 +1,50 @@
+{{ field_names|json_script:"field_names" }}
+<script>
+    $(document).ready(() => {
+
+        $(document).foundation()
+
+        field_names = JSON.parse($('#field_names').text())
+        
+    })
+</script>
+<div class="row">
+    <div class="large-9 columns">
+        <ul class="tabs" data-tabs id="example-tabs">
+            {% for name, schema in schemas.items %}
+                <input type="hidden" id="hidden_schema_name" name="{{ name }}">
+                <li class="tabs-title {% if forloop.first %}is-active{% endif %}">
+                    <a href="#schema_{{ name }}" aria-selected="true">{{ name|capfirst }}</a>
+                </li>
+            {% endfor %}
+            <li class="tabs-title">
+                <a href="#schema_new" aria-selected="true">New schema</a>
+            </li>
+        </ul>
+    <div class="tabs-content" data-tabs-content="example-tabs">
+        <div class="row">
+            <div class="cell">
+                <div>
+                    <label for="configuration_filter">Filter fields</label>
+                    <input id="configuration_filter" type="text" placeholder="Name">
+                </div>
+                <input type="checkbox" id="configuration_filter_checkbox_indexed"><label for="configuration_filter_checkbox_indexed">Indexed</label>
+                <input type="checkbox" id="configuration_filter_checkbox_unindexed"><label for="configuration_filter_checkbox_unindexed">Unindexed</label>
+            </div>
+            <div class="grid-x">
+                {% for name, schema in schemas.items %}
+                    <div class="tabs-panel columns large-9 {% if forloop.first %}is-active{% endif %}" id="schema_{{ schema.SchemaInfo.schema_name }}">
+                        {% include 'schema.html' with schema=schema %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tabs-content" data-tabs-content="example-tabs">
+    <div class="tabs-panel" id="schema_new">
+        <p>New collections can be useful to store different types of data. Note, however, that the database does not enforce this and one should think carefully about what definition of 'data' is sensible to the project. Each collection has a defined number of fields that can be indexed to enable search functionalities. You can define fields here and when done, add the new collection to the database. This new collection will then be available in the sections where you can add new data and search through the data.</p>
+        <hr>
+        {% include 'schema-new.html' %}
+    </div>
+</div>

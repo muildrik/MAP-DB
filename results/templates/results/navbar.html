@@ -1,0 +1,38 @@
+{% load i18n %}
+
+{% if user.is_authenticated %}
+<div class="cell small-4 large-up-4 align-self-middle">
+    <form method="POST" action="{% url 'simple_search' %}" autocomplete="off">
+        {% csrf_token %}
+        <ul class="menu">
+            <li><input type="Search" id=search_term name=term placeholder="Enter any keyword"></li>
+            <li><button type="submit" class="button">{% trans 'Search' %}</button></li>
+        </ul>
+    </form>
+</div>
+<div class="cell small-4 large-up-4 align-self-middle">
+    <h5>{% trans 'WelcomeUser' %} {{ user }}</h5>
+</div>
+{% endif %}
+<div class="cell small-4 large-up-4 align-self-middle">
+    {% if not user.is_authenticated %}
+    <ul class="dropdown menu grid-x grid-margin-x" data-dropdown-menu>
+        <li><a href="{% url 'about' %}">{% trans 'About' %}</a></li>
+        <li><a href="{% url 'contact' %}">{% trans 'Contact' %}</a></li>
+        <li><a href="{% url 'signin' %}">{% trans 'SignUp' %}</a></li>
+    </ul>
+    {% else %}
+    <ul class="dropdown menu" data-dropdown-menu>
+        <li>
+            <a href="#">Data</a>
+            <ul class="menu vertical">
+                <li><a href="{% url 'data_add' %}">{% trans 'AddData' %}</a></li>
+                <li><a href="{% url 'upload_data' %}">{% trans 'UploadData' %}</a></li>
+                <li><a href="{% url 'load_data' %}">{% trans 'ExportData' %}</a></li>
+            </ul>
+        </li>
+        <li><a href="{% url 'configuration' %}">{% trans 'ConfigureMAP' %}</a></li>
+        <li><a href="{% url 'signout' %}">{% trans 'SignOut' %}</a></li>
+    </ul>
+    {% endif %}
+</div>

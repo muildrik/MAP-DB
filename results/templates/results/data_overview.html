@@ -1,0 +1,6 @@
+<div>
+    <h5>{{ schema_name }}</h5>
+</div>
+    {% for record in records %}
+        {% include 'result-carousel.html' with record=record schema_name=schema_name schema=schema %}
+    {% endfor %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<script>
+    $(document).ready(() => {
+
+        /********************
+         * SCHEMA OPERATIONS
+        ********************/    
+        // ADD SCHEMA
+        $('body').on('click', '.new_schema', e => {
+            data = {
+                'schema_name' : $('#new_schema_name').val()
+            }
+            post("{% url 'new_schema' %}", data)
+        })
+
+        // DROP SCHEMA
+        $('body').on('click', '.drop_schema', e => {
+            schema_name = $(e.currentTarget).data('id')
+            drop = confirm("You are about to drop schema " + schema_name + ". This will also erase the records in the associated collection and the indices. This cannot be undone! Are you sure you want to continue?")
+            if (drop) {
+                data = {
+                    'schema_name' : schema_name
+                }
+                post("{% url 'drop_schema' %}", data)
+            }
+        })
+
+        /********************
+         * FIELD OPERATIONS
+        ********************/
+        // (RE)INDEX OR DROP FIELD
+        $('body').on('click', '.field_btn', e => {
+            e.preventDefault()
+            schema_name = $(e.currentTarget).data('schema')
+            field_name = $(e.currentTarget).data('field')
+            post($(e.currentTarget).data('url'), { 'schema_name' : schema_name, 'field_name' : field_name }, 'schemas')
+            if ($.inArray(field_name, field_names[schema_name]) != -1) {
+                field_names[schema_name].pop(field_names[schema_name].indexOf(field_name))
+            }
+        })
+
+        // ADD FIELD
+        $('body').on('click', '.add_new_field', e => {
+            e.preventDefault()
+            data = $('#new_field_form').serializeArray()
+            if ($.inArray(data[1]['value'], field_names[data[0]['value']]) == -1) {
+                post("{% url 'add_new_field' %}", data, 'schemas')
+            } else {
+                console.log('already in schema')
+            }
+        })
+
+        // UPDATE FIELD NUMERICAL OR INTEGER VALUE
+        $('body').on('change', '.field_value', e => {
+            e.preventDefault()
+            data = {
+                'schema_name' : $(e.currentTarget).data('schema'),
+                'field_name' : $(e.currentTarget).data('field'),
+                'property_key' : $(e.currentTarget).prop('name'),
+                'property_val' : $(e.currentTarget).val() || $(e.currentTarget).prop('checked')
+            }
+            post("{% url 'update_field_property' %}", data)           
+        })
+
+        // UPDATE FIELD BOOLEAN/CHECKBOX VALUE
+        // $('body').on('click', '.chkbox', e => {
+        //     e.preventDefault()
+        //     data = {
+        //         'schema_name' : $(e.currentTarget).data('schema'),
+        //         'field_name' : $(e.currentTarget).data('field'),
+        //         'property_key' : $(e.currentTarget).prop('name'),
+        //         'property_val' : $(e.currentTarget).prop('checked')
+        //     }
+        //     post("{% url 'update_field_property' %}", data)
+        // })
+
+        $('#configuration_filter').on('keyup', e => {
+            q = $(e.currentTarget).val().toLowerCase()
+            c = $('#reindex_form').find(".card")
+            l = c.filter((idx, e) => $(e).attr('id').includes(q))
+            l.toggle()
+        })
+
+    })
+</script>
+    <div class="row">
+        <div>
+            <div class="grid-x grid-margin-x">
+                <div class="cell">
+                    <h1>Database Index Manager (DIM)</h1>
+                </div>
+                <div class="cell">
+                    <p>An index is what makes a particular field searchable, but too many indices can negatively affect database performance. Sometimes refreshing an index or dropping an index that is no longer useful helps to optimize search performance and keep the database clean and organized. The DIM allows you to reindex each field or drop an index altogether. You can also drop a field from that collection's schema if you no longer need it for adding new records. Note this will not affect current records in the database, but only the representation of new records to be added.</p>
+                </div>
+                <div class="cell">
+                    To delete fields from specific records please go <a href='#'>here</a>.
+                </div>
+                {% if user.is_superuser %}
+                    <div class="cell">
+                        <p>Below are schemas currently in the database. Schemas define the structure of the data stored in a collection. You can add new schemas for new collections here. Please note that the default schema is a system default. Dropping the default schema will clear the indices, fields and its collection.</p>
+                    </div>
+                    <div class="cell" id="schemas">
+                        {% include 'schemas.html' %}
+                    </div>
+                {% else %}
+                    <div class="cell">
+                        Your user privileges do not permit you to use DIM. Please contact the system administrator if you think this is incorrect.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<div id="confirm_drop" title="Warning!">
+    <p>You are about to drop this schema. This will also erase your records in that collection as well as the indices and this cannot be undone! Are you sure you want to continue?</p>
+</div>

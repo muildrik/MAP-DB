@@ -1,0 +1,32 @@
+{% if schema.items|length %}
+    <form id="new_record_form">
+        <div class="columns large-6">
+            {% for field_name, field in schema.items %}
+                <input type=hidden name=schema_name value="{{ schema_name }}">
+                <div class="input-group">
+                    <label for=add_data_{{field_name}}><span data-tooltip tabindex="1" title="
+                        {% if 'required' in field %}This is a required field{% endif %}
+                        {% if 'type' in field %}of {{field.type}}-type{%endif%}
+                        {% if 'index' in field %}and indexed to speed up search queries.{% endif %}
+                        {% if 'translate_key' in field %}The name{% endif %}
+                        {% if 'translate_val' in field %}and value{% endif %} of this field automatically translate.
+                    ">
+                    <span id=add_data_{{field_name}} class="input-group-label">{{ field_name }}</span></label>
+                    {% if 'string' in field.type %}
+                        <input class="input-group-field" {% if field.max_length > 0 %} maxlength='{{ field.max_length|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=text name="{{field_name}}">
+                    {% elif 'integer' in field.type %}'
+                        {{field.max_length}}
+                        <input class="input-group-field" {% if field.max_length > 0 %} maxlength='{{ field.max_length|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=number name="{{field_name}}">
+                    {% elif 'file' in field.type %}
+                        <input class="input-group-field" {% if field.max_size > 0 %} data-max='{{ field.max_size|add:"0" }}' {% endif %} {% if 'required' in field %}required{% endif %} type=file accept='{{ field.file_types }}' name="{{field_name}}">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="columns small-6 medium-6 large-12">
+            <button class="button primary add_new_record" type="submit">Add new record</button>
+        </div>
+    </form>
+{% else %}
+    This collection lacks a schema. Please ask the administrator to define a schema for this collection.
+{% endif %}

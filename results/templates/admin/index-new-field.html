@@ -1,0 +1,86 @@
+<script>
+    $(document).ready(() => {
+        $('#max_size_group').hide()
+        $('#file_types_group').hide()
+        $('#display_new_field_select').hide()
+
+        $('body').on('change', '#add_type', e => {
+            if ($('#add_type').val() == 'string' || $('#add_type').val() == 'integer') {
+                $('#max_length_group').show()
+            } else {
+                $('#max_length_group').hide()
+            }
+
+            if ($('#add_type').val() == 'file') {
+                $('#max_size_group').show()
+                $('#file_types_group').show()
+                $('#add_translate_group').hide()
+            } else {
+                $('#max_size_group').hide()
+                $('#file_types_group').hide()
+                $('#add_translate_group').show()
+            }
+
+            if ($('#add_type').val() == 'integer') {
+                $('#index_new_field').hide()
+            } else {
+                $('#index_new_field').show()
+            }
+        })
+        $('body').on('change', '.input-group-field[name=display]', e => {
+            $('#display_new_field_select').toggle()
+        })
+    })
+</script>
+<div class="row right">
+    <h4>Add a new field</h4>
+    <form id=new_field_form>
+        <div>
+            <input type="hidden" name="schema" value="{{ schema_name }}">
+            <div class="input-group">
+                <span class="input-group-label">Name</span>
+                <input type=text class="input-group-field" name="name" id="add_name" placeholder="Name of the new field">
+            </div>
+            <div class="input-group">
+                <span class="input-group-label">Type</span>
+                <select class="input-group-field" name="type" id=add_type>
+                    <option value=string>String</option>
+                    <option value=integer>Integer</option>
+                    <option value=boolean>Boolean</option>
+                    <option value=date>Date</option>
+                    <option value=file>File</option>
+                </select>
+            </div>
+            <div class="input-group" id="max_length_group">
+                <span class="input-group-label">Maximum character length</span>
+                <input type=number class="input-group-field" name="max_length" id="add_max-length" placeholder="Maximum number of characters (0 = infinite)">
+            </div>
+            <div class="input-group" id="max_size_group">
+                <span class="input-group-label">Maximum file size (KB)</span>
+                <input type=number class="input-group-field" name="max_size" id="add_max-size" placeholder="Maximum file size in KB (where 1000 KB is 1 MB)">
+            </div>
+            <div class="input-group" id="file_types_group">
+                <span class="input-group-label">File types</span>
+                <input class="input-group-field" name="file_types" id="add_file-types" type=text placeholder="A comma-separated list of allowable file-types beginning with a dot (e.g. .jpg, .pdf)">
+            </div>
+            <div>
+                <div id=display_new_field></div><input class="input-group-field" id=chkbox_display_new_field name="display" type=checkbox><label for=chkbox_display_new_field>Display field</label></div>
+                <select name=display_type id=display_new_field_select>
+                    <option value=title>Title/header</option>
+                    <option value=thumbnail>Thumbnail</option>
+                    <option value=description>Description</option>
+                    <option value=other>Other</option>
+                </select>
+                <div id="add_required_group"><input class="input-group-field" name="required" type=checkbox checked><label for="add_required">Required</label></div>
+                <div id=add_translate_group>
+                    <div id=index_new_field><input class="input-group-field" id=chkbox_index_new_field name="index" type=checkbox checked><label for=chkbox_index_new_field>Index</label></div>
+                    <div id=trkey_new_field><input class="input-group-field" id=chkbox_trkey_new_field name="translate_key" type=checkbox checked><label for=chkbox_trkey_new_field>Autotranslate field name</label></div>
+                    <div id=trval_new_field></div><input class="input-group-field" id=chkbox_trval_new_field name="translate_val" type=checkbox checked><label for=chkbox_trval_new_field>Autotranslate field value</label></div>
+                </div>
+            </div>
+            <div>
+                <button class="button primary add_new_field" type="submit">Add new field</button>
+            </div>
+        </div>
+    </form>
+</div>

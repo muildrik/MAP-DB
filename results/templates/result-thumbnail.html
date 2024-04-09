@@ -1,0 +1,27 @@
+{% for record in records %}
+div class="orbit-wrapper">
+    <div class="orbit-controls">
+      <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+      <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+    </div>
+    {{ records }}
+    <ul class="orbit-container">
+        {% for record in records %}
+      <li class="{% if path.isactive %}is-active{% endif %} orbit-slide">
+          {{ record }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <nav class="orbit-bullets">
+      {% for path in imagepaths.items %}
+        <button class="{% if path.isactive %}is-active{% endif %}" data-slide="{{ forloop.counter }}">
+            <span class="show-for-sr">First slide details.</span>
+            <span class="show-for-sr" data-slide-active-label>Current Slide</span>
+        </button>
+    {% endfor %}
+    <!-- <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button> -->
+    <!-- <button data-slide="2"><span class="show-for-sr">Third slide details.</span></button> -->
+    <!-- <button data-slide="3"><span class="show-for-sr">Fourth slide details.</span></button> -->
+  </nav>
+{% endfor %}

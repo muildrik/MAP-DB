@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'upload_data' %}"
+    {% if form.is_multipart %}
+        enctype="multipart/form-data"
+    {% endif %}>
+    {{ form }}
+</form>
+{% endblock %}

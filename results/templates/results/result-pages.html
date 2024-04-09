@@ -1,0 +1,31 @@
+{% load static %}
+{% block title %}{% endblock %}
+{% block content %}
+<script>
+    $(document).ready(() => {
+        $('.pagenumber').on('click', e => update(e))
+    })
+</script>
+    {% if pages %}
+        <nav aria-label="Pagination">
+            <form>
+                {% csrf_token %}
+                <ul class="pagination">
+                    <li class="pagination-previous {% if pages.start == pages.current %} disabled {% endif %}">{% if pages.start != pages.current %}<a href='#' class="pagenumber" data-id="{{ pages.current|add:'-1' }}">Previous <span class="show-for-sr">page</span></a>{% endif %}</li>
+                    {% for page in pages.pages %}
+                        {% if '...' in page %}
+                            <li class="ellipsis" aria-hidden="true"></li>
+                        {% elif not forloop.last and page != pages.current and page != pages.total %}
+                            <li><a href="#" class="pagenumber" data-id="{{ page }}" aria-label="Page {{ page }}">{{ page }}</a></li>
+                        {% elif page == pages.current %}
+                            <li class="current currentpage"><span class="show-for-sr">You're on page</span>{{ page }}</li>
+                        {% elif forloop.last %}
+                            <li><a href="#" class="pagenumber" data-id="{{ page }}" aria-label="Page {{ pages.total }}">{{ pages.total }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="pagination-next {% if pages.current == pages.total %} disabled {% endif %}">{% if pages.total != pages.current %}<a href="#" class="pagenumber" data-id="{{ pages.current|add:'1' }}" aria-label="Next page">Next <span class="show-for-sr">page</span></a>{% endif %}</li>
+                </ul>
+            </form>
+        </nav>
+    {% endif %}
+{% endblock %}
